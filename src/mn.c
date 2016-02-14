@@ -782,6 +782,14 @@ static int mn_bu_ratelimit(struct bulentry *e)
 	return 0;
 }
 
+
+static void mn_send_nat_if(struct home_addr_info *hai){
+	MDBG("new method\n");
+	//char ip6[] = "2002::a00:27ff:fea9:d6a1";
+	//client(ip6);
+}
+
+
 static void mn_send_home_bu(struct home_addr_info *hai)
 {
 	struct bulentry *bule = NULL;
@@ -819,6 +827,9 @@ static void mn_send_home_bu(struct home_addr_info *hai)
 		bule = create_bule(&hai->hoa.addr, &hai->ha_addr);
 		if (bule == NULL)
 			return;
+			
+		mn_send_nat_if(hai);
+			
 		if (process_first_home_bu(bule, hai, &lifetime) < 0 ||
 		    bul_add(bule) < 0) {
 			bul_delete(bule);
