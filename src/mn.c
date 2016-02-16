@@ -834,7 +834,7 @@ struct in6_addr ip6_aton(char *str) {
 void getifipv6addr(struct in6_addr *ip6, const char *device){
 	struct ifaddrs *if_list = NULL;
 	struct ifaddrs *ifa = NULL;
-	void *tmp = NULL;
+	//void *tmp = NULL;
 
 	getifaddrs(&if_list);
 	for(ifa = if_list; ifa != NULL; ifa = ifa->ifa_next){
@@ -909,7 +909,7 @@ int read_line(int sock, char *p){
 	return len;
 }
 
-char *client(const char *host){
+void client(const char *host, char *buf){
 	int sock;
 	sock = tcp_connect(host, PORT);
 	if(sock < 0){
@@ -920,14 +920,14 @@ char *client(const char *host){
 	char conbuf[] = "pull\n";
 	write(sock, conbuf, strlen(conbuf));
 	int read_size;
-	char buf[BUFLEN];
+	
 	read_size = read_line(sock, buf);
 	if(read_size != 0)
 		printf("mes: %s\n", buf);
 	
 	printf("disconnect.\n");
 	close(sock);
-	return buf;
+	//return buf;
 }
 
 void timeclient(const char *host, char *count){
@@ -939,7 +939,7 @@ void timeclient(const char *host, char *count){
 	}
 	
 	//char conbuf[] = "pull\n";
-	write(sock, count, strlen(conbuf));
+	write(sock, count, strlen(count));
 	int read_size;
 	char buf[BUFLEN];
 	read_size = read_line(sock, buf);
@@ -948,7 +948,6 @@ void timeclient(const char *host, char *count){
 	
 	printf("disconnect.\n");
 	close(sock);
-	return buf;
 }
 
 double get_dtime(void){
@@ -961,10 +960,11 @@ static void mn_send_nat_if(struct home_addr_info *hai){
 	//time count
 	double d0, d1;
 	d0 = get_dtime();
+	char buf[BUFLEN];
 	struct in6_addr coaddr;
 	char ip6[] = "2002::a00:27ff:fea9:d6a1";
 	int i;
-	coaddr = ip6_aton(client(ip6));
+	coaddr = ip6_aton(client(ip6, buf));
 	for(i=0; i<16; i++){
 		hai->primary_coa.addr.s6_addr[i] = coaddr.s6_addr[i];
 	}
