@@ -918,7 +918,10 @@ void client(const char *host, char *buf){
 	}
 	
 	char conbuf[] = "pull\n";
-	write(sock, conbuf, strlen(conbuf));
+	if(write(sock, conbuf, strlen(conbuf)) == -1){
+		close(sock);
+		return;
+	}
 	int read_size;
 	
 	read_size = read_line(sock, buf);
@@ -939,7 +942,10 @@ void timeclient(const char *host, char *count){
 	}
 	
 	//char conbuf[] = "pull\n";
-	write(sock, count, strlen(count));
+	if(write(sock, count, strlen(count)) == -1){
+		close(sock);
+		return;
+	}
 	int read_size;
 	char buf[BUFLEN];
 	read_size = read_line(sock, buf);
@@ -964,7 +970,8 @@ static void mn_send_nat_if(struct home_addr_info *hai){
 	struct in6_addr coaddr;
 	char ip6[] = "2002::a00:27ff:fea9:d6a1";
 	int i;
-	coaddr = ip6_aton(client(ip6, buf));
+	client(ip6, buf);
+	coaddr = ip6_aton(buf);
 	for(i=0; i<16; i++){
 		hai->primary_coa.addr.s6_addr[i] = coaddr.s6_addr[i];
 	}
