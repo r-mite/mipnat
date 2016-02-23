@@ -336,6 +336,14 @@ static int vt_cmd_showstats(const struct vt_handle *vh, __attribute__ ((unused))
 	return 0;
 }
 
+static int vt_cmd_showtime(const struct vt_handle *vh,
+			     __attribute__ ((unused)) const char *str)
+{
+	//struct vt_handle *sysvh = vt_handle_get();
+	fprintf(vh->vh_stream, "kimura-yurusumaji!\n");
+	return 0;
+}
+
 static int vt_cmd_sys_quit(const struct vt_handle *vh,
 			   __attribute__ ((unused)) const char *str)
 {
@@ -414,6 +422,11 @@ static struct vt_cmd_entry vt_cmd_stats = {
 	.parser = vt_cmd_showstats,
 };
 
+static struct vt_cmd_entry vt_cmd_timer = {
+	.cmd = "timer",
+	.parser = vt_cmd_showtime,
+};
+
 static int vt_cmd_sys_init(void)
 {
 	int ret;
@@ -457,6 +470,10 @@ static int vt_cmd_sys_init(void)
 		return ret;
 
 	ret = vt_cmd_add_root(&vt_cmd_stats);
+	if (ret < 0)
+		return ret;
+	
+	ret = vt_cmd_add_root(&vt_cmd_timer);
 	if (ret < 0)
 		return ret;
 
