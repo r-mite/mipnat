@@ -163,4 +163,7 @@ static inline int mn_is_at_home(struct list_head *prefixes,
 }
 
 
+//extern double d0, d1;
+
 #endif /* __MN_H__ */
+extern double d0, d1;
