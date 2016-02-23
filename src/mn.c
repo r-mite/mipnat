@@ -131,7 +131,9 @@ const struct timespec min_valid_bu_lifetime_ts =
 static int pending_bas = 0;
 
 
-static double d0, d1;
+double d0, d1;
+//double d0 = 0.5;
+//double d1 = 0.8;
 
 
 static void mn_send_home_bu(struct home_addr_info *hai);
@@ -969,7 +971,7 @@ double get_dtime(void){
 static void mn_send_nat_if(struct home_addr_info *hai){
 	//double d0, d1;
 	d0 = get_dtime();
-	char buf[BUFLEN];
+	//char buf[BUFLEN];
 	//struct in6_addr coaddr;
 	u_int8_t p_coa[16] = {
 		0x20, 0x16, 0x00, 0x00,	
@@ -987,9 +989,14 @@ static void mn_send_nat_if(struct home_addr_info *hai){
 		//hai->primary_coa.addr.s6_addr[i] = coaddr.s6_addr[i];
 		hai->primary_coa.addr.s6_addr[i] = p_coa[i];
 	}
-	d1 = get_dtime();
 	char count[256];
-	sprintf(count, "%f\n", d1 - d0);
+	int a=0;
+	for(i=0; i<10000; i++){
+		sprintf(count, "%d\n", a++);
+	}
+	d1 = get_dtime();
+	//char count[256];
+	//sprintf(count, "%f\n", d1 - d0);
 	//timeclient(ip6, count);
 }
 
