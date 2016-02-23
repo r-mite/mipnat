@@ -98,6 +98,7 @@ static struct vt_handle *vt_connect_handle = NULL;
 static int vt_server_fini(void);
 static int vt_connect_close(struct vt_handle *vh);
 
+
 /* Find a handle which is able to be modified */
 static struct vt_handle *vt_handle_get(void)
 {
@@ -341,6 +342,9 @@ static int vt_cmd_showtime(const struct vt_handle *vh,
 {
 	//struct vt_handle *sysvh = vt_handle_get();
 	fprintf(vh->vh_stream, "kimura-yurusumaji!\n");
+	fprintf(vh->vh_stream, "d0 = %f, ", d0);
+	fprintf(vh->vh_stream, "d1 = %f\n", d1);
+	fprintf(vh->vh_stream, "%f\n", d1 - d0);
 	return 0;
 }
 
