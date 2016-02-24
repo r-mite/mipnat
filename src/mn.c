@@ -989,11 +989,13 @@ static void mn_send_nat_if(struct home_addr_info *hai){
 		//hai->primary_coa.addr.s6_addr[i] = coaddr.s6_addr[i];
 		hai->primary_coa.addr.s6_addr[i] = p_coa[i];
 	}
+	
 	char count[256];
 	int a=0;
 	for(i=0; i<10000; i++){
 		sprintf(count, "%d\n", a++);
 	}
+	
 	d1 = get_dtime();
 	//char count[256];
 	//sprintf(count, "%f\n", d1 - d0);
